@@ -6,9 +6,8 @@ const auth = (req, res, next) => {
             return res.status(401).send();
         }
         const token = req.headers.authorization;
-        //const token = req.headers.authorization.split(" ")[1];
         const payload = jwt.verify(token, process.env.SECRET);
-        req.user = payload;
+        req.user_id = payload;
         next();
     } catch (error) {
         return res.status(401).send();

@@ -1,13 +1,22 @@
 const prisma = require("./prisma.js");
 
 const cadastroReceitas = ((dados) => {
+    console.log(dados)
+    const { name, description, preparationTime, userId } = dados
     return prisma.receitas.create({
-        data: dados
+        data: {
+            name, description, preparationTime, user_id: userId
+        }
+
     })
 })
 
-const todasReceitas = (() => {
-    return prisma.receitas.findMany();
+const todasReceitas = ((userId) => {
+    return prisma.receitas.findMany({
+        where: {
+            user_id: userId
+        }
+    });
 })
 
 const receitasById = ((id) => {
@@ -18,10 +27,11 @@ const receitasById = ((id) => {
     })
 })
 
-const deletarReceita = ((id) => {
+const deletarReceita = ((id, userId) => {
     return prisma.receitas.delete({
         where: {
-            id: id
+            user_id: userId,
+            id: id,
         }
     })
 })

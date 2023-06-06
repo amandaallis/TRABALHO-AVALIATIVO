@@ -31,9 +31,9 @@ router.post("/login", async (req, res) => {
 
     try {
         const user = await findUserByEmail(email);
-        if (!email) return res.status(401).send("Não existe usuário com esses dados. Tente novamente.");
+        if (!user) throw new Error("Não existe usuário com esses dados. Tente novamente.");
         const isSamePassaword = bcrypt.compareSync(password, user.password);
-        if (!isSamePassaword) return res.status(401).send("Não existe usuário com esses dados. Tente novamente.");
+        if (!isSamePassaword) throw new Error("Não existe usuário com esses dados. Tente novamente.");
         const token = jwt.sign(
             {
                 userId: user.id,
@@ -49,8 +49,7 @@ router.post("/login", async (req, res) => {
     }
 
     catch (err) {
-        console.log(err);
-        res.send();
+        res.status(404).send();
     }
 })
 
