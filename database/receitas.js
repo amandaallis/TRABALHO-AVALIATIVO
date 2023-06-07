@@ -1,22 +1,20 @@
 const prisma = require("./prisma.js");
 
 const cadastroReceitas = ((dados) => {
-    const { name, description, preparationTime, userId } = dados
+    const { name, description, preparationTime, user_id } = dados;
     return prisma.receitas.create({
         data: {
-            name, description, preparationTime, user_id: userId
+            name, description, preparationTime, user_id
         }
     })
 })
 
-const updateReceitas = ((receitas, id) => {
-    const { name, description, preparationTime, User, userId } = receitas;
-
-    console.log(User);
+const updateReceitas = ((id, receitas) => {
+    const { name, description, preparationTime } = receitas;
 
     return prisma.receitas.update({
         where: {
-            id: id
+            id
         },
         data: {
             name,
@@ -26,10 +24,10 @@ const updateReceitas = ((receitas, id) => {
     })
 })
 
-const todasReceitas = ((userId) => {
+const todasReceitas = ((user_id) => {
     return prisma.receitas.findMany({
         where: {
-            user_id: userId
+            user_id,
         }
     });
 })
@@ -46,7 +44,7 @@ const receitasById = ((id, userId) => {
 const deletarReceita = ((id) => {
     return prisma.receitas.delete({
         where: {
-            id: id,
+            id,
         }
     })
 })

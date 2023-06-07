@@ -7,7 +7,7 @@ const auth = (req, res, next) => {
         }
         const token = req.headers.authorization;
         const payload = jwt.verify(token, process.env.SECRET);
-        req.user_id = payload;
+        req.user_id = payload.userId;
         next();
     } catch (error) {
         return res.status(401).send();
